@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FilmJury</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div>
+        <h1>🎬 FilmJury</h1>
+        <p>Short Film Contest Management System</p>
+    </div>
+
+</header>
+
+
+<nav>
+
+    <button onclick="showSection('dashboard')">
+        Dashboard
+    </button>
+
+    <button onclick="showSection('entries')">
+        Entries
+    </button>
+
+    <button onclick="showSection('judges')">
+        Judges
+    </button>
+
+    <button onclick="showSection('criteria')">
+        Criteria
+    </button>
+
+    <button onclick="showSection('assignments')">
+        Assignments
+    </button>
+
+    <button onclick="showSection('scoring')">
+        Scoring
+    </button>
+
+    <button onclick="showSection('rankings')">
+        Rankings
+    </button>
+
+</nav>
+
+
+<main>
+
+
+    <!-- ================================================= -->
+    <!-- DASHBOARD -->
+    <!-- ================================================= -->
+
+    <section id="dashboard"
+             class="section active">
+
+        <h2>Dashboard</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>🎞️ Entries</h3>
+                <strong id="entryCount">0</strong>
+            </div>
+
+            <div class="card">
+                <h3>👨‍⚖️ Judges</h3>
+                <strong id="judgeCount">0</strong>
+            </div>
+
+            <div class="card">
+                <h3>📋 Criteria</h3>
+                <strong id="criterionCount">0</strong>
+            </div>
+
+        </div>
+
+        <div class="info-box">
+
+            <h3>FilmJury</h3>
+
+            <p>
+                Use the navigation above to manage film entries,
+                judges, judging criteria, assignments and scores.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- ENTRIES -->
+    <!-- ================================================= -->
+
+    <section id="entries"
+             class="section">
+
+        <h2>🎞️ Film Entries</h2>
+
+        <div id="entryMessage"
+             class="message">
+        </div>
+
+
+        <div class="form-box">
+
+            <h3 id="entryFormTitle">
+                Add New Film
+            </h3>
+
+            <input type="hidden"
+                   id="entryId">
+
+            <label>Film Title</label>
+
+            <input type="text"
+                   id="entryTitle"
+                   placeholder="Enter film title">
+
+
+            <label>Genre</label>
+
+            <input type="text"
+                   id="entryGenre"
+                   placeholder="Drama / Comedy / Thriller">
+
+
+            <label>Video Link</label>
+
+            <input type="url"
+                   id="entryVideoLink"
+                   placeholder="https://youtube.com/...">
+
+
+            <button onclick="saveEntry()">
+                Save Entry
+            </button>
+
+            <button class="secondary"
+                    onclick="clearEntryForm()">
+
+                Clear
+
+            </button>
+
+        </div>
+
+
+        <div class="table-box">
+
+            <h3>All Entries</h3>
+
+            <button onclick="loadEntries()">
+                Refresh
+            </button>
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Video</th>
+                    <th>Actions</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="entriesTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- JUDGES -->
+    <!-- ================================================= -->
+
+    <section id="judges"
+             class="section">
+
+        <h2>👨‍⚖️ Judges</h2>
+
+        <div id="judgeMessage"
+             class="message">
+        </div>
+
+
+        <div class="form-box">
+
+            <h3 id="judgeFormTitle">
+                Add New Judge
+            </h3>
+
+            <input type="hidden"
+                   id="judgeId">
+
+
+            <label>Name</label>
+
+            <input type="text"
+                   id="judgeName"
+                   placeholder="Judge name">
+
+
+            <label>Email</label>
+
+            <input type="email"
+                   id="judgeEmail"
+                   placeholder="judge@example.com">
+
+
+            <button onclick="saveJudge()">
+                Save Judge
+            </button>
+
+            <button class="secondary"
+                    onclick="clearJudgeForm()">
+
+                Clear
+
+            </button>
+
+        </div>
+
+
+        <div class="table-box">
+
+            <h3>Registered Judges</h3>
+
+            <button onclick="loadJudges()">
+                Refresh
+            </button>
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Assigned Films</th>
+                    <th>Actions</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="judgesTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- CRITERIA -->
+    <!-- ================================================= -->
+
+    <section id="criteria"
+             class="section">
+
+        <h2>📋 Judging Criteria</h2>
+
+        <div id="criterionMessage"
+             class="message">
+        </div>
+
+
+        <div class="form-box">
+
+            <h3 id="criterionFormTitle">
+                Add Criterion
+            </h3>
+
+            <input type="hidden"
+                   id="criterionId">
+
+
+            <label>Criterion Name</label>
+
+            <input type="text"
+                   id="criterionName"
+                   placeholder="Story">
+
+
+            <label>Description</label>
+
+            <input type="text"
+                   id="criterionDescription"
+                   placeholder="Quality of story and screenplay">
+
+
+            <label>Maximum Score</label>
+
+            <input type="number"
+                   id="criterionMaxScore"
+                   min="1"
+                   step="0.1"
+                   placeholder="10">
+
+
+            <button onclick="saveCriterion()">
+                Save Criterion
+            </button>
+
+            <button class="secondary"
+                    onclick="clearCriterionForm()">
+
+                Clear
+
+            </button>
+
+        </div>
+
+
+        <div class="table-box">
+
+            <h3>Current Criteria</h3>
+
+            <button onclick="loadCriteria()">
+                Refresh
+            </button>
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Max Score</th>
+                    <th>Actions</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="criteriaTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- ASSIGNMENTS -->
+    <!-- ================================================= -->
+
+    <section id="assignments"
+             class="section">
+
+        <h2>🔗 Judge Assignments</h2>
+
+        <div id="assignmentMessage"
+             class="message">
+        </div>
+
+
+        <div class="form-box">
+
+            <h3>Assign Film To Judge</h3>
+
+
+            <label>Judge</label>
+
+            <select id="assignmentJudge">
+
+                <option value="">
+                    Select Judge
+                </option>
+
+            </select>
+
+
+            <label>Film</label>
+
+            <select id="assignmentEntry">
+
+                <option value="">
+                    Select Film
+                </option>
+
+            </select>
+
+
+            <button onclick="assignEntry()">
+                Assign Film
+            </button>
+
+        </div>
+
+
+        <div class="table-box">
+
+            <h3>Current Assignments</h3>
+
+            <button onclick="loadAssignments()">
+                Refresh
+            </button>
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>Judge</th>
+                    <th>Film</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="assignmentsTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- SCORING -->
+    <!-- ================================================= -->
+
+    <section id="scoring"
+             class="section">
+
+        <h2>⭐ Score Film</h2>
+
+        <div id="scoreMessage"
+             class="message">
+        </div>
+
+
+        <div class="form-box">
+
+            <label>Judge</label>
+
+            <select id="scoreJudge">
+
+                <option value="">
+                    Select Judge
+                </option>
+
+            </select>
+
+
+            <label>Film</label>
+
+            <select id="scoreEntry">
+
+                <option value="">
+                    Select Film
+                </option>
+
+            </select>
+
+
+            <div id="scoreFields">
+
+            </div>
+
+
+            <button onclick="submitScore()">
+                Submit Scorecard
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- RANKINGS -->
+    <!-- ================================================= -->
+
+    <section id="rankings"
+             class="section">
+
+        <h2>🏆 Rankings</h2>
+
+        <button onclick="loadRankings()">
+            Refresh Rankings
+        </button>
+
+
+        <div id="rankingMessage"
+             class="message">
+        </div>
+
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>Rank</th>
+                <th>Film</th>
+                <th>Genre</th>
+                <th>Average Score</th>
+                <th>Judges</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="rankingsTable">
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    FilmJury © 2026
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
